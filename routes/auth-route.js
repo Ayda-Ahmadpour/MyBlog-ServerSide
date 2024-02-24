@@ -3,5 +3,6 @@ import { signIn, signUp } from "../controllers/controller_auth.js";
 const authRouter = express.Router();
 authRouter.post("/signup", signUp);
 authRouter.post("/signin", signIn);
+// authRouter.post("/google", google);
 
 export default authRouter;

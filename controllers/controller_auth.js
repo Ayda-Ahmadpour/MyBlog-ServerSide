@@ -1,6 +1,7 @@
 import User from "../models/user-model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 export const signUp = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -62,6 +63,41 @@ export const signIn = async (req, res, next) => {
       .json(others);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
+    next(error);
+  }
+};
+export const google = async (req, res, next) => {
+  const { name, email, googlePhoto } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "30d",
+      });
+      const { password, ...others } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(others);
+    }
+
+    if (!user) {
+      const newUser = new User({ username, email });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "30d",
+      });
+      const { password, ...others } = newUser._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(others);
+    }
+  } catch (error) {
     next(error);
   }
 };

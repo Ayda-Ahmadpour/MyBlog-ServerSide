@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 export const verifyUser = (req, res, next) => {
-  const token = req.cookies.access_token; // Extract access token from cookies
+  const token = req.cookies.access_token;
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -9,7 +9,7 @@ export const verifyUser = (req, res, next) => {
 
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = user;
+    req.user = user; // Set req.user with decoded user information
     next();
   } catch (error) {
     return res.status(401).json({ error: "Unauthorized" });

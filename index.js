@@ -6,6 +6,7 @@ import userRouter from "./routes/user-route.js";
 import authRouter from "./routes/auth-route.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import router from "./routes/user-route.js";
 dotenv.config();
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/post", router);
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 mongoose

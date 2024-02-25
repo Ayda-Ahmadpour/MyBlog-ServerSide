@@ -51,9 +51,13 @@ export const signIn = async (req, res, next) => {
     if (!isMatch) {
       return next(res.status(400).json({ error: "Invalid password" }));
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
     const { password: userPassword, ...others } = user._doc;
     res
       .status(200)
@@ -71,9 +75,13 @@ export const google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "30d",
-      });
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "30d",
+        }
+      );
       const { password, ...others } = user._doc;
       res
         .status(200)
@@ -86,9 +94,13 @@ export const google = async (req, res, next) => {
     if (!user) {
       const newUser = new User({ username, email });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: "30d",
-      });
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "30d",
+        }
+      );
       const { password, ...others } = newUser._doc;
       res
         .status(200)

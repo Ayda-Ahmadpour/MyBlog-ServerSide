@@ -48,3 +48,13 @@ export const updateUserInformation = async (req, res, next) => {
     next(error);
   }
 };
+
+export const signout = (req, res, next) => {
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json({ message: "Signout successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+    next(error);
+  }
+};

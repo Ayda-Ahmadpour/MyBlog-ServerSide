@@ -1,17 +1,14 @@
-// controller-post.js
 import Post from "../models/post-model.js";
 
 export const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
 
-    // Create a new post
     const newPost = new Post({
       title,
       content,
     });
 
-    // Save the post to the database
     const savedPost = await newPost.save();
 
     res.status(201).json(savedPost);

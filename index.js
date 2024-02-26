@@ -1,11 +1,10 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user-route.js";
 import authRouter from "./routes/auth-route.js";
-import postRouter from "./routes/post-route.js"; // Import the new router for posts
+import postRouter from "./routes/post-route.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import session from "express-session";
@@ -32,16 +31,14 @@ app.use(
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-// Define routes after setting up middleware
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 
-// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("Connected to MongoDB !!!!");
+    console.log("Connected to MongoDB !!!");
   })
   .catch((err) => {
     console.log("Error: ", err);

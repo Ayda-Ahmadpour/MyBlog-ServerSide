@@ -1,7 +1,17 @@
+// post-route.js
 import express from "express";
-const router = express.Router();
-import { verifyUser } from "../utility/verifyUser";
+import {
+  createPost,
+  showPost,
+  deletePost,
+  updatePost,
+} from "../controllers/controller-post.js";
 
-router.post("/create", verifyUser, create);
+const router = express.Router();
+
+router.post("/create", createPost);
+router.get("/show", showPost);
+router.delete("/delete/:id", deletePost);
+router.put("/update/:id", updatePost);
 
 export default router;

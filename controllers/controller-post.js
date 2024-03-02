@@ -1,16 +1,15 @@
 import Post from "../models/post-model.js";
 import path from "path";
 
-// Controller function to create a new post
 export const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
-    const imageUrl = req.file ? path.join("/uploads/", req.file.filename) : ""; // Check if file was uploaded
+    const imageUrl = req.file ? path.join("/uploads/", req.file.filename) : "";
 
     const newPost = new Post({
       title,
       content,
-      imageUrl, // Save the image URL to the database
+      imageUrl,
     });
 
     const savedPost = await newPost.save();

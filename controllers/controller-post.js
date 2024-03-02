@@ -1,12 +1,16 @@
 import Post from "../models/post-model.js";
+import path from "path";
 
+// Controller function to create a new post
 export const createPost = async (req, res) => {
   try {
     const { title, content } = req.body;
+    const imageUrl = req.file ? path.join("/uploads/", req.file.filename) : ""; // Check if file was uploaded
 
     const newPost = new Post({
       title,
       content,
+      imageUrl, // Save the image URL to the database
     });
 
     const savedPost = await newPost.save();
@@ -18,6 +22,7 @@ export const createPost = async (req, res) => {
   }
 };
 
+// Controller function to fetch all posts
 export const showPost = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -28,6 +33,7 @@ export const showPost = async (req, res) => {
   }
 };
 
+// Controller function to delete a post by ID
 export const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -45,6 +51,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
+// Controller function to update a post by ID
 export const updatePost = async (req, res) => {
   try {
     const postId = req.params.id;
